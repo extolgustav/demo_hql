@@ -1,9 +1,8 @@
 package com.example.demo_hql.controller;
 
 import com.example.demo_hql.dto.UserDTO;
-import com.example.demo_hql.dto.UserPasswordDTO;
+import com.example.demo_hql.dto.UserNewPasswordDTO;
 import com.example.demo_hql.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,19 +22,24 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/{s}")
+    @GetMapping("/findname/{s}")
     public List<UserDTO> findByUserNameContains(@PathVariable String s){
-        return null;
+        return userService.findByUserNameContains(s);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find/test")
+    public List<UserDTO> findAllUnusable(){
+        return userService.findAllUnusable();
+    }
+
+    @GetMapping("/find/{id}")
     public UserDTO findUserById(@PathVariable Long id){
-        return null;
+        return userService.findUserById(id);
     }
 
     @PostMapping("/create")
-    public UserDTO createUser(@RequestBody UserDTO userDTO){
-        return null;
+    public void createUser(@RequestBody UserDTO userDTO){
+        userService.createUser(userDTO.getUsername(), userDTO.getPassword());
     }
 
     @PostMapping("/save")
@@ -44,13 +48,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public UserDTO deleteUser(@PathVariable Long id){
-        return null;
+    public void deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
     }
 
     @PutMapping
-    public UserDTO updateUserPassword(@RequestBody UserPasswordDTO userPasswordDTO){
-        return null;
+    public void updateUserPassword(@RequestBody UserNewPasswordDTO userPasswordDTO){
+        userService.updateUserPassword(userPasswordDTO.getId(), userPasswordDTO.getNewPassword());
     }
-
 }
